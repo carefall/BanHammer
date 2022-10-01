@@ -20,12 +20,13 @@ import static me.carefall.banhammer.utils.Colorizer.colorize;
 
 public class HammerListener implements Listener {
 	
-	private NamespacedKey key, banKey;
+	private NamespacedKey key, banKey, standKey;
 	private BanHammer plugin;
 
 	public HammerListener(BanHammer plugin) {
 		key = new NamespacedKey(plugin, "hammer");
 		banKey = new NamespacedKey(plugin, "banned");
+		standKey = new NamespacedKey(plugin, "stand");
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
 	}
@@ -53,6 +54,7 @@ public class HammerListener implements Listener {
 		stand.setInvisible(true);
 		stand.setGravity(false);
 		stand.setInvulnerable(true);
+		banned.getPersistentDataContainer().set(standKey, PersistentDataType.STRING, stand.getUniqueId().toString());
 		banned.setInvulnerable(true);
 		stand.addPassenger(banned);
 		var height = loc.getWorld().getMaxHeight() - 2;
@@ -75,6 +77,7 @@ public class HammerListener implements Listener {
 					stand.removePassenger(banned);
 					stand.remove();
 					banned.getPersistentDataContainer().remove(banKey);
+					banned.getPersistentDataContainer().remove(standKey);
 					banned.kickPlayer("You got pen is-banned lol");
 					this.cancel();
 				} else {
