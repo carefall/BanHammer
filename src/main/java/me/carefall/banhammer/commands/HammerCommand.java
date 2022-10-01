@@ -20,6 +20,7 @@ public class HammerCommand implements CommandExecutor {
 		var meta = hammer.getItemMeta();
 		meta.setDisplayName(colorize("&dBan hammer"));
 		meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "hammer"), PersistentDataType.BYTE, (byte) 1);
+		hammer.setItemMeta(meta);
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -29,6 +30,10 @@ public class HammerCommand implements CommandExecutor {
 		}
 		if (!(sender instanceof Player player)) {
 			sender.sendMessage("Oh nibba you console");
+			return false;
+		}
+		if (!player.hasPermission("banhammer.hammer")) {
+			player.sendMessage("Oh nibba you do not have permission");
 			return false;
 		}
 		player.getInventory().setItemInMainHand(hammer);
