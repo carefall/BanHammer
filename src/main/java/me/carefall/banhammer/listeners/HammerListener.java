@@ -38,7 +38,6 @@ public class HammerListener implements Listener {
 		if (!(event.getRightClicked() instanceof Player banned)) return;
 		player.sendMessage(colorize("&aYou banned &d" + banned.getName()));
 		banned.sendMessage(colorize("You got pen is-banned lol"));
-		banned.getPersistentDataContainer().set(key, null, null);
 		var loc = banned.getLocation().clone();
 		var locs = new Location[5];
 		locs[0] = loc;
@@ -53,6 +52,8 @@ public class HammerListener implements Listener {
 		var stand = (ArmorStand) loc.getWorld().spawnEntity(locs[4].clone().add(0, 1, 0), EntityType.ARMOR_STAND);
 		stand.setInvisible(true);
 		stand.setGravity(false);
+		stand.setInvulnerable(true);
+		banned.setInvulnerable(true);
 		banned.getPersistentDataContainer().set(banKey, PersistentDataType.BYTE, (byte) 1);
 		stand.addPassenger(banned);
 		var height = loc.getWorld().getMaxHeight() - 2;
@@ -64,9 +65,10 @@ public class HammerListener implements Listener {
 					Location banLoc = banned.getLocation();
 					var fw = (Firework) banLoc.getWorld().spawnEntity(banLoc, EntityType.FIREWORK);
 					var meta = fw.getFireworkMeta();
-					meta.setPower(2);
+					meta.setPower(16);
 					meta.addEffect(FireworkEffect.builder().withColor(Color.AQUA).with(FireworkEffect.Type.BALL).build());
 					fw.setFireworkMeta(meta);
+					fw.detonate();
 					banned.kickPlayer("You got pen is-banned lol");
 					this.cancel();
 				} else {
@@ -80,7 +82,10 @@ public class HammerListener implements Listener {
 						l.getBlock().setType(Material.ORANGE_WOOL);
 					}
 					locs[4].clone().add(0, 1, 0).getBlock().setType(Material.END_ROD);
+					stand.removePassenger(banned);
+					banned.teleport(stand.getLocation().clone().add(0, 1, 0));
 					stand.teleport(stand.getLocation().clone().add(0, 1, 0));
+					stand.addPassenger(banned);
 				}
 			}
 		}.runTaskTimer(plugin, 1L, 2L);
