@@ -21,7 +21,7 @@ public class BanDismountListener implements Listener {
 	@EventHandler
 	public void onDismount(EntityDismountEvent event) {
 		if (!(event.getDismounted() instanceof Player player)) return;
-		if (player.getPersistentDataContainer().has(banKey, PersistentDataType.BYTE)) event.setCancelled(true);
+		if (player.getPersistentDataContainer().has(banKey, PersistentDataType.INTEGER)) event.setCancelled(true);
 	}
 
 }

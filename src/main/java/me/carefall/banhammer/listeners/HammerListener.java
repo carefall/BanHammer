@@ -54,10 +54,9 @@ public class HammerListener implements Listener {
 		stand.setGravity(false);
 		stand.setInvulnerable(true);
 		banned.setInvulnerable(true);
-		banned.getPersistentDataContainer().set(banKey, PersistentDataType.BYTE, (byte) 1);
 		stand.addPassenger(banned);
 		var height = loc.getWorld().getMaxHeight() - 2;
-		new BukkitRunnable() {
+		int id = new BukkitRunnable() {
 			@Override
 			public void run() {
 				if (locs[4].getBlockY() >= height) {
@@ -75,6 +74,7 @@ public class HammerListener implements Listener {
 					}
 					stand.removePassenger(banned);
 					stand.remove();
+					banned.getPersistentDataContainer().remove(banKey);
 					banned.kickPlayer("You got pen is-banned lol");
 					this.cancel();
 				} else {
@@ -94,7 +94,8 @@ public class HammerListener implements Listener {
 					stand.addPassenger(banned);
 				}
 			}
-		}.runTaskTimer(plugin, 1L, 2L);
+		}.runTaskTimer(plugin, 1L, 2L).getTaskId();
+		banned.getPersistentDataContainer().set(banKey, PersistentDataType.INTEGER, id);
 	}
 
 }

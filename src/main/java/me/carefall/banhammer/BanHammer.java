@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.carefall.banhammer.commands.HammerCommand;
 import me.carefall.banhammer.listeners.BanDismountListener;
 import me.carefall.banhammer.listeners.HammerListener;
+import me.carefall.banhammer.listeners.QuitListener;
 
 import static me.carefall.banhammer.utils.Colorizer.colorize;
 
@@ -14,6 +15,7 @@ public class BanHammer extends JavaPlugin {
 		new HammerCommand(this);
 		new HammerListener(this);
 		new BanDismountListener(this);
+		new QuitListener(this);
 		send("&aPlugin enabled!");
 	}
 	
