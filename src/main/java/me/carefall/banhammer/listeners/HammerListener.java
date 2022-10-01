@@ -69,6 +69,12 @@ public class HammerListener implements Listener {
 					meta.addEffect(FireworkEffect.builder().withColor(Color.AQUA).with(FireworkEffect.Type.BALL).build());
 					fw.setFireworkMeta(meta);
 					fw.detonate();
+					for (var l : locs) {
+						l.getBlock().setType(Material.AIR);
+						locs[4].clone().add(0, 1, 0).getBlock().setType(Material.AIR);
+					}
+					stand.removePassenger(banned);
+					stand.remove();
 					banned.kickPlayer("You got pen is-banned lol");
 					this.cancel();
 				} else {
