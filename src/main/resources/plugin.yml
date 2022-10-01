@@ -1,0 +1,9 @@
+name: BanHammer
+author: carefall
+version: 1.0
+main: me.carefall.banhammer.BanHammer
+api-version: 1.19
+description: Pen is
+commands:
+  banhammer:
+    description: Pen is
